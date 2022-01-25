@@ -9,15 +9,15 @@ servers:
     basePath:
       default: "/default"
 paths:
-  /TestFunction:
-    x-amazon-apigateway-any-method:
+  /api:
+    get:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:275832611856:function:TestFunction/invocations"
+        uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:275832611856:function:${TestFunction.Arn}/invocations"
         responses:
           ".*":
             statusCode: "200"

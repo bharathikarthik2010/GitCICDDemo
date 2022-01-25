@@ -39,5 +39,5 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayApi
-            Path: /TestFunction
+            Path: /${TestFunction.Arn}
             Method: get
