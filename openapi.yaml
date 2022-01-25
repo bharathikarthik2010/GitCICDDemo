@@ -9,7 +9,7 @@ servers:
     basePath:
       default: "/default"
 paths:
-  /OpenApiStack-TestFunction-2rQCnUWaiZVm:
+  /TestFunction:
     x-amazon-apigateway-any-method:
       responses:
         "200":
