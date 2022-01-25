@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM using OpenApi Spec
+Globals:
+  Function:
+    Runtime: python3.6
+    Timeout: 180
+Parameters:
+  SelectEnvironment:
+    Type: String
+    Description: Which environment do you want to deploy to? (local,dev,stage, or
+      prod)
+    AllowedValues:
+    - local
+    - dev
+    - stage
+    - prod
+    Default: local
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName:
+        Fn::Sub: ${SelectEnvironment}
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://bk-lambda-pipeline/a40e64432b6bf252b39343d297c6fb03
+    Metadata:
+      SamResourceId: ApiGatewayApi
+  TestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: TestFunction.lambda_handler
+      CodeUri: s3://bk-lambda-pipeline/b9d18278829856032e42a1e26288105b
+      Events:
+        ApiGatewayApiEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ApiGatewayApi
+            Path: /TestFunction
+            Method: get
+    Metadata:
+      SamResourceId: TestFunction
