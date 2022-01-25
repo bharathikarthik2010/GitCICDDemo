@@ -1,0 +1,18 @@
+openapi: "3.0.1"
+info:
+  title: "LambdaFn1-API"
+  description: "Created by AWS Lambda"
+  version: "2022-01-25T01:10:14Z"
+servers:
+- url: "https://iek97gvmje.execute-api.ap-southeast-2.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "/default"
+paths:
+  /LambdaFn1:
+    x-amazon-apigateway-any-method:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+components: {}
