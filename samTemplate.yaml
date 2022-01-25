@@ -1,14 +1,43 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: SAM using OpenApi Spec
+
+Globals:
+  Function:
+    Runtime: python3.6
+    Timeout: 180
+
+Parameters:
+  SelectEnvironment:
+    Type: String
+    Description: Which environment do you want to deploy to? (local,dev,stage, or prod)
+    AllowedValues:
+    - local
+    - dev
+    - stage
+    - prod
+    Default: local
+
 Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: Dev
-      EndpointConfiguration: REGIONAL
+      StageName: !Sub ${SelectEnvironment}
       DefinitionBody:
         'Fn::Transform':
           Name: 'AWS::Include'
           Parameters:
             Location: openapi.yaml
+
+  TestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_handler
+      CodeUri: ./Function1.py
+      Events:
+        ApiGatewayApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayApi
+            Path: /TestFunction
+            Method: get
