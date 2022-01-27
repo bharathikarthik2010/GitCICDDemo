@@ -6,7 +6,8 @@ phases:
   build:
     commands:
       - sam build
-  post_build:    
+  post_build:   
+    commands: 
       - sam package --template-file samTemplate.yaml --s3-bucket newpackages --output-template-file outputSamTemplate.yaml
       - sam deploy --template-file outputSamTemplate.yaml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
 artifacts:
