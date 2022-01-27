@@ -1,11 +1,8 @@
 version: 0.1
 phases:
-  build:
+  install:
     commands:
-      - sam build
-      - sam package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
-      - sam deploy --template-file C:\BharathiProj\outputSamTemplate.yaml --stack-name DemoStackProd --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
-     
+      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
 artifacts:
   type: zip
   files:
