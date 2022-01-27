@@ -3,15 +3,9 @@ phases:
   build:
     commands:
       - sam build
-      # put openapi file into s3 bucket
-      - aws s3api put-object --bucket bk-lambda-pipeline --key DemoStack27/samTemplate.yaml --body ./samTemplate.yaml
-      # package sam template (to be compatible with cloudformation template) 
-      # then upload required files (e.g. dependencies) to s3 bucket
-      - sam package --output-template-file outputSamTemplate.yaml --s3-bucket bk-lambda-pipeline --s3-prefix DemoStack27
-      # put packaged.yaml file to s3 bucket 
-      - aws s3api put-object --bucket bk-lambda-pipeline --key DemoStack27/outputSamTemplate.yaml --body ./outputSamTemplate.yaml
-      # deploy packaged.yaml file and upload to s3 bucket
-      - sam deploy --template-file outputSamTemplate.yaml --s3-bucket bk-lambda-pipeline --s3-prefix DemoStack27 --stack-name DemoStack27 --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
+      - sam package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
+      - sam deploy --template-file C:\BharathiProj\outputSamTemplate.yaml --stack-name DemoStackProd --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
+     
 artifacts:
   type: zip
   files:
