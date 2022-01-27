@@ -1,9 +1,9 @@
 version: 0.2
 phases:
-  install:
   build:
     commands:
-      - sam package --template-file samTemplate.yaml --s3-bucket newpackages --output-template-file outputSamTemplate.yaml
+      - sam build
+      - sam deploy --template-file samTemplate.yaml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
 artifacts:
   type: zip
   files:
