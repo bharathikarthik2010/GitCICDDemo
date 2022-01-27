@@ -1,11 +1,8 @@
-version: 0.2
+version: 0.1
 phases:
   Install:
     commands:
-      # Package SAM template
       - sam package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
-      # Deploy packaged SAM template
-      - sam deploy --template-file outputSamTemplate.yaml --stack-name ShowStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
 artifacts:
   type: zip
   files:
