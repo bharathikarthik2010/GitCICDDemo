@@ -10,7 +10,7 @@ Globals:
 Parameters:
   EnvironmentName:
     Description: Select Environment to create resource !
-    Default: prod
+    Default: Dev
     Type: String
     AllowedValues: [prod, Dev]
     ConstraintDescription: must specify prod, Dev.
