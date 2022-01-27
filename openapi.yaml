@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  title: "DemoAPI27"
+  title: "DemoAPI"
   description: "Created by OpenAPi Spec"
   version: "2022-01-25T04:32:09Z"
 servers:
@@ -21,4 +21,19 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         type: "aws_proxy"
+  /api/show:
+    x-amazon-apigateway-any-method:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/${TestFunction1.Arn}/invocations"
+        responses:
+          ".*":
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "aws_proxy"      
 components: {}

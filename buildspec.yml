@@ -1,10 +1,11 @@
-version: 0.1
+version: 0.2
 phases:
-  Install:
+  install:
+    runtime-versions:
+        python: 3.8
+  build:
     commands:
-      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
+      - sam package --template-file samTemplate.yml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yml
 artifacts:
-  type: zip
   files:
-    - samTemplate.yaml
-    - outputSamTemplate.yaml
+    - outputSamTemplate.yml    
