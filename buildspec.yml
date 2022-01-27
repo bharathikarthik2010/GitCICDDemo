@@ -1,8 +1,9 @@
 version: 0.1
 phases:
-  install:
+  build:
     commands:
-      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
+      - sam package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml     
+      - sam deploy --template-file outputSamTemplate.yaml --s3-bucket bk-lambda-pipeline --stack-name DemoStack27 --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
 artifacts:
   type: zip
   files:
