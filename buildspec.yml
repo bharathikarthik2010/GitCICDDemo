@@ -5,7 +5,10 @@ phases:
         python: 3.8
   build:
     commands:
+      - sam build
+  post_build:    
       - sam package --template-file samTemplate.yml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yml
+      - sam deploy --template-file outputSamTemplate.yaml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
 artifacts:
   files:
     - outputSamTemplate.yml    
