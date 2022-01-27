@@ -1,10 +1,8 @@
-version: 0.1
+version: 0.2
 phases:
-  install:
+  build:
     commands:
-      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
-artifacts:
-  type: zip
-  files:
-    - samTemplate.yaml
-    - outputSamTemplate.yaml
+      # Package SAM template
+      - sam package --template-file samTemplate.yml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
+      # Deploy packaged SAM template
+      - sam deploy --template-file outputSamTemplate.yaml --stack-name ShowStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=prod
