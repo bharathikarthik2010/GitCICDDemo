@@ -26,7 +26,7 @@ Resources:
         'Fn::Transform':
           Name: 'AWS::Include'
           Parameters:
-            Location: openapi.yaml
+            Location: openapi.yaml          
             
   TestFunction:
     Type: AWS::Serverless::Function
@@ -52,5 +52,4 @@ Resources:
           Properties:
             RestApiId: !Ref ApiGatewayApi
             Path: /api/show
-            Method: any          
-           
+            Method: any                
