@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+  build:
+    commands:
+      - sam build
+  post_build:    
+      - sam deploy --template-file samTemplate.yml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
+artifacts:
+  type: zip
+  files:
+    - samTemplate.yml
+    - outputSamTemplate.yml
