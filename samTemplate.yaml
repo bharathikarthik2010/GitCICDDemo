@@ -8,21 +8,23 @@ Globals:
     Timeout: 180
 
 Parameters:
-  SelectEnvironment:
+  EnvironmentName:
+    Description: Select Environment to create resource !
+    Default: prod
     Type: String
-    Description: Which environment do you want to deploy to? (local,dev,stage, or prod)
-    AllowedValues:
-    - local
-    - dev
-    - stage
-    - prod
-    Default: local
+    AllowedValues: [prod, Dev]
+    ConstraintDescription: must specify prod, Dev.
 
+Conditions:
+  CreateProdResource: !Equals [!Ref EnvironmentName, prod]
+  CreateDevResource: !Equals [!Ref EnvironmentName, Dev]
+ 
 Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
+    Condition: CreateDevResource
     Properties:
-      StageName: !Sub ${SelectEnvironment}
+      StageName: !Ref EnvironmentName
       DefinitionBody:
         'Fn::Transform':
           Name: 'AWS::Include'
@@ -31,13 +33,15 @@ Resources:
 
   TestFunction:
     Type: AWS::Serverless::Function
+    Condition: CreateDevResource
     Properties:
       Handler: TestFunction.lambda_handler
-      CodeUri: ./LambdaCode
+      CodeUri: ./LambdaCode          
       Events:
         ApiGatewayApiEvent:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayApi
-            Path: /${TestFunction.Arn}
-            Method: get
+            Path: /api/posts
+            Method: any
+           

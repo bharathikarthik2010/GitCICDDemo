@@ -6,31 +6,40 @@ Globals:
     Runtime: python3.6
     Timeout: 180
 Parameters:
-  SelectEnvironment:
+  EnvironmentName:
+    Description: Select Environment to create resource !
+    Default: prod
     Type: String
-    Description: Which environment do you want to deploy to? (local,dev,stage, or
-      prod)
     AllowedValues:
-    - local
-    - dev
-    - stage
     - prod
-    Default: local
+    - Dev
+    ConstraintDescription: must specify prod, Dev.
+Conditions:
+  CreateProdResource:
+    Fn::Equals:
+    - Ref: EnvironmentName
+    - prod
+  CreateDevResource:
+    Fn::Equals:
+    - Ref: EnvironmentName
+    - Dev
 Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
+    Condition: CreateDevResource
     Properties:
       StageName:
-        Fn::Sub: ${SelectEnvironment}
+        Ref: EnvironmentName
       DefinitionBody:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: s3://bk-lambda-pipeline/a40e64432b6bf252b39343d297c6fb03
+            Location: s3://bk-lambda-pipeline/4b33b4dbc591be49ecb63dbb4b9bae14
     Metadata:
       SamResourceId: ApiGatewayApi
   TestFunction:
     Type: AWS::Serverless::Function
+    Condition: CreateDevResource
     Properties:
       Handler: TestFunction.lambda_handler
       CodeUri: s3://bk-lambda-pipeline/b9d18278829856032e42a1e26288105b
@@ -40,7 +49,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: ApiGatewayApi
-            Path: /TestFunction
-            Method: get
+            Path: /api/posts
+            Method: any
     Metadata:
       SamResourceId: TestFunction
