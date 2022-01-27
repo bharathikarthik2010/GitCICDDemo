@@ -6,7 +6,7 @@ phases:
   build:
     commands:    
       - sam package --template-file samTemplate.yml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yml
-      - sam deploy --template-file /codebuild/output/src417642096/src/outputSamTemplate.yml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
+      - sam deploy --template-file outputSamTemplate.yml --stack-name DevStack --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
 artifacts:
   files:
     - samTemplate.yml
