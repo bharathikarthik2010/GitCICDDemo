@@ -44,7 +44,7 @@ Resources:
   TestFunction1:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: TestFunction.lambda_handler
+      Handler: TestFunction.Show_handler
       CodeUri: ./LambdaCode          
       Events:
         ApiGatewayApiEvent:
