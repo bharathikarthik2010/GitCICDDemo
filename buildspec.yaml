@@ -2,8 +2,8 @@ version: 0.2
 phases:
   build:
     commands:
-      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
-      - aws cloudformation deploy --template-file outputSamTemplate.yaml --stack-name cfn-workshop --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
+      - aws sam package --template-file samTemplate.yaml --s3-bucket bk-lambda-pipeline --output-template-file outputSamTemplate.yaml
+      - aws sam deploy --template-file outputSamTemplate.yaml --stack-name DevStack1 --capabilities CAPABILITY_IAM --parameter-overrides EnvironmentName=Dev
 artifacts:
   type: zip
   files:
